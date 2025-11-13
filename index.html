@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Сад знань</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Головне меню -->
+  <div id="menu">
+    <h1>Ласкаво просимо в Сад знань!</h1>
+    <button id="enter-garden">Увійти в сад</button>
+  </div>
+
+  <!-- Сад -->
+  <!--<div id="garden" style="display:none;">
+    <h2>Виберіть квітку, щоб дізнатися про неї</h2>
+    <div class="flowers">
+      <div class="flower" data-name="Ромашка">
+        <img src="images/romashka.jpg" alt="Ромашка">
+        <p>Ромашка</p>
+      </div>
+      <div class="flower" data-name="Троянда">
+        <img src="images/troyanda.jpg" alt="Троянда">
+        <p>Троянда</p>
+      </div>
+      <div class="flower" data-name="Лілія">
+        <img src="images/liliya.jpg" alt="Лілія">
+        <p>Лілія</p>
+      </div>
+    </div>
+  </div> -->
+  <!-- САД -->
+<div id="garden" style="display:none;">
+  <h2>Виберіть квітку, щоб дізнатися про неї</h2>
+  <div class="flowers">
+    <div class="flower" data-name="Ромашка">
+      <img src="images/romashka.jpg" alt="Ромашка">
+      <div class="flower-name">Ромашка</div>
+      <div class="flower-score">Бали: <span id="score-romashka">0</span></div>
+    </div>
+
+    <div class="flower" data-name="Троянда">
+      <img src="images/troyanda.jpg" alt="Троянда">
+      <div class="flower-name">Троянда</div>
+      <div class="flower-score">Бали: <span id="score-troyanda">0</span></div>
+    </div>
+
+    <div class="flower" data-name="Лілія">
+      <img src="images/liliya.jpg" alt="Лілія">
+      <div class="flower-name">Лілія</div>
+      <div class="flower-score">Бали: <span id="score-liliya">0</span></div>
+    </div>
+  </div>
+</div>
+
+   
+  <!-- Карточка квітки -->
+<!-- КАРТОЧКА ЦВЕТКА -->
+<div id="flower-card" style="display:none;" class="fade-in">
+  <h2 id="flower-name"></h2>
+  <p id="flower-info"></p>
+
+  <button id="start-test">Пройти тест 🌼</button>
+
+  <!-- Блок тесту -->
+  <div id="test-section" style="display:none;">
+    <h3 id="test-question"></h3>
+    <div id="test-options"></div>
+    <p id="test-result"></p>
+  </div>
+
+  <p id="score-display">Ваші бали: <span id="score">0</span></p>
+  <button id="back-to-garden">Назад у сад</button>
+</div>
+
+
+  <!---> Панель налаштувань -->
+  <div id="settings">
+    <button id="settings-btn">⚙️</button>
+    <div id="volume-control" style="display:none;">
+      <label for="volume-range">Гучність:</label>
+      <input type="range" id="volume-range" min="0" max="1" step="0.01" value="0.2">
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
