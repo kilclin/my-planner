@@ -5,10 +5,15 @@ const flowerData = {
   "Лілія": "Лілія — елегантна квітка з ніжними пелюстками. Символізує чистоту, велич та благородство."
 };
 
+// ----------------------
+// 🔊 Гучність звукових ефектів
+// ----------------------
+let effectsVolume = 0.5;
+
 //  Звуки через HTML Audio 
-function playSound(url, volume = 1) {
+function playSound(url) {
   const audio = new Audio(url);
-  audio.volume = volume;
+  audio.volume = effectsVolume;
   audio.play();
 }
 
@@ -32,8 +37,6 @@ document.getElementById('enter-garden').addEventListener('click', () => {
 
   menu.style.display = 'none';
   garden.style.display = 'block';
-
-  //  Додаємо fade-in ефект
   garden.classList.add('fade-in');
 
   playBgMusic('sounds/bg_music.mp3', 0.2);
@@ -43,8 +46,7 @@ document.getElementById('enter-garden').addEventListener('click', () => {
 const flowers = document.querySelectorAll('.flower');
 flowers.forEach(flower => {
   flower.addEventListener('click', () => {
-    playSound('sounds/click.mp3', 0.5);
-    
+    playSound('sounds/click.mp3');
 
     const name = flower.dataset.name;
     const card = document.getElementById('flower-card');
@@ -55,8 +57,6 @@ flowers.forEach(flower => {
 
     garden.style.display = 'none';
     card.style.display = 'block';
-
-    //  Плавна поява картки
     card.classList.add('fade-in');
   });
 });
@@ -65,15 +65,17 @@ flowers.forEach(flower => {
 document.getElementById('back-to-garden').addEventListener('click', () => {
   const card = document.getElementById('flower-card');
   const garden = document.getElementById('garden');
+   playSound('sounds/click.mp3');
+
 
   card.style.display = 'none';
   garden.style.display = 'block';
-
-  //  Плавна поява саду знову
   garden.classList.add('fade-in');
 });
 
-//  Налаштування гучності через шестерню 
+// ----------------------
+// ⚙️ Налаштування гучності
+// ----------------------
 const settingsBtn = document.getElementById('settings-btn');
 const volumeControl = document.getElementById('volume-control');
 const volumeRange = document.getElementById('volume-range');
@@ -83,17 +85,25 @@ settingsBtn.addEventListener('click', () => {
     volumeControl.style.display === 'none' ? 'block' : 'none';
 });
 
+// 🔊 ТЕПЕР ПОВЗУНОК КЕРУЄ І МУЗИКОЮ, І ЕФЕКТАМИ
 volumeRange.addEventListener('input', () => {
+  const v = parseFloat(volumeRange.value);
+
+  // фонова музика
   if (bgMusicAudio) {
-    bgMusicAudio.volume = parseFloat(volumeRange.value);
+    bgMusicAudio.volume = v;
   }
+
+  // ефекти
+  effectsVolume = v;
 });
-// === 🎮 Система тестів ===
 
-// === 🎮 Система тестів ===
-// === 🎮 Система тестів з окремими балами для кожної квітки ===
 
-// Три питання для кожної квітки
+// ----------------------
+// Система тестів
+// ----------------------
+
+//  питання для кожної квітки
 const tests = {
   "Ромашка": [
     { question: "Якого кольору пелюстки ромашки?", options: ["Білі", "Червоні", "Жовті"], answer: "Білі" },
@@ -123,6 +133,8 @@ let flowerScores = {
 document.getElementById('start-test').addEventListener('click', () => {
   const currentFlower = document.getElementById('flower-name').textContent;
   startTest(currentFlower);
+   playSound('sounds/click.mp3');
+
 });
 
 function startTest(flowerName) {
@@ -162,9 +174,11 @@ function startTest(flowerName) {
       correctAnswers++;
       resultEl.textContent = "✅ Правильно!";
       resultEl.style.color = "green";
+      playSound("sounds/success.mp3");
     } else {
       resultEl.textContent = "❌ Неправильно!";
       resultEl.style.color = "red";
+      playSound("sounds/error.mp3");
 
       const retryBtn = document.createElement('button');
       retryBtn.textContent = "Спробувати ще раз";
@@ -187,31 +201,33 @@ function startTest(flowerName) {
       finishTest();
     }
   }
-  // helper: перетворює українську назву в латинський slug для id
-function slugify(name) {
-  // простий варіант: змінюємо регістр, замінюємо кирилицю на латинський наближення
-  const map = { 'а':'a','б':'b','в':'v','г':'g','ґ':'g','д':'d','е':'e','є':'ye','ж':'zh','з':'z','и':'y','і':'i','ї':'yi','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ь':'','ю':'yu','я':'ya' };
-  return name.toLowerCase().split('').map(ch => map[ch] !== undefined ? map[ch] : (/[a-z0-9]/.test(ch) ? ch : '-')).join('').replace(/-+/g,'-').replace(/^-|-$/g,'');
-}
+
+  // helper: перетворення укр. назви в латиницю
+  function slugify(name) {
+    const map = { 'а':'a','б':'b','в':'v','г':'g','ґ':'g','д':'d','е':'e','є':'ye','ж':'zh','з':'z','и':'y','і':'i','ї':'yi','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ь':'','ю':'yu','я':'ya' };
+    return name.toLowerCase().split('').map(ch => map[ch] ?? '-').join('')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
 
   function finishTest() {
-  testSection.style.display = 'none';
-  const gainedPoints = correctAnswers * 10;
-  flowerScores[flowerName] += gainedPoints;
+    confetti({
+      particleCount: 250,
+      spread: 90,
+      origin: { y: 0.6 }
+    });
+    testSection.style.display = 'none';
+    const gainedPoints = correctAnswers * 10;
+    flowerScores[flowerName] += gainedPoints;
 
-  const flowerInfo = document.getElementById('flower-info');
-  flowerInfo.innerHTML += `<br><b>🎉 Ви завершили тест для ${flowerName}! Отримано ${gainedPoints} балів!</b><br>`;
-  flowerInfo.innerHTML += `<b>🌸 Ваші бали за ${flowerName}: ${flowerScores[flowerName]}</b>`;
-    // оновити показ балів у саду — використовуємо slugify
-const slug = slugify(flowerName); // напр. "Ромашка" -> "romashka"
-const scoreElement = document.getElementById(`score-${slug}`);
-if (scoreElement) {
-  scoreElement.textContent = flowerScores[flowerName];
-}
+    const flowerInfo = document.getElementById('flower-info');
+    flowerInfo.innerHTML += `<br><b>🎉 Ви завершили тест для ${flowerName}! Отримано ${gainedPoints} балів!</b><br>`;
+    flowerInfo.innerHTML += `<b>🌸 Ваші бали за ${flowerName}: ${flowerScores[flowerName]}</b>`;
 
+    const slug = slugify(flowerName);
+    const scoreElement = document.getElementById(`score-${slug}`);
+    if (scoreElement) {
+      scoreElement.textContent = flowerScores[flowerName];
+    }
   }
 }
-
-
-
-

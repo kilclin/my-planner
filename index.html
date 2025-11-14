@@ -5,6 +5,9 @@
   <title>Сад знань</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <body>
   <!-- Головне меню -->
   <div id="menu">
@@ -12,24 +15,6 @@
     <button id="enter-garden">Увійти в сад</button>
   </div>
 
-  <!-- Сад -->
-  <!--<div id="garden" style="display:none;">
-    <h2>Виберіть квітку, щоб дізнатися про неї</h2>
-    <div class="flowers">
-      <div class="flower" data-name="Ромашка">
-        <img src="images/romashka.jpg" alt="Ромашка">
-        <p>Ромашка</p>
-      </div>
-      <div class="flower" data-name="Троянда">
-        <img src="images/troyanda.jpg" alt="Троянда">
-        <p>Троянда</p>
-      </div>
-      <div class="flower" data-name="Лілія">
-        <img src="images/liliya.jpg" alt="Лілія">
-        <p>Лілія</p>
-      </div>
-    </div>
-  </div> -->
   <!-- САД -->
 <div id="garden" style="display:none;">
   <h2>Виберіть квітку, щоб дізнатися про неї</h2>
@@ -56,7 +41,6 @@
 
    
   <!-- Карточка квітки -->
-<!-- КАРТОЧКА ЦВЕТКА -->
 <div id="flower-card" style="display:none;" class="fade-in">
   <h2 id="flower-name"></h2>
   <p id="flower-info"></p>
@@ -75,8 +59,7 @@
 </div>
 
 
-  <!---> Панель налаштувань -->
-  <div id="settings">
+ <div id="settings">
     <button id="settings-btn">⚙️</button>
     <div id="volume-control" style="display:none;">
       <label for="volume-range">Гучність:</label>
