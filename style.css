@@ -209,3 +209,6 @@ button:hover {
   font-size: 28px;
   cursor: pointer;
 }
+#score-display {
+  display: none;
+}
