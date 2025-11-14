@@ -231,3 +231,20 @@ function startTest(flowerName) {
     }
   }
 }
+// ===== КОНТАКТИ =====
+const contactsBtn = document.getElementById('contacts-btn');
+const modal = document.getElementById('contacts-modal');
+const closeModal = document.getElementById('close-modal');
+
+contactsBtn.addEventListener('click', () => {
+  modal.style.display = 'block';
+  playSound('sounds/click.mp3');
+});
+
+closeModal.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target === modal) modal.style.display = 'none';
+});
